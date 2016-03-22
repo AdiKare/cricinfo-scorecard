@@ -1,0 +1,99 @@
+<div ng-include="'components/navbar/navbar.html'"></div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <div ui-ace="{mode: 'json', useWrapMode: true}" ng-model="aceModel">
+      </div>
+      <div class="buttons">
+        <button id="classify-btn" type="button" class="btn btn-primary" ng-click="classify()" ng-show="!processing">Classify this data</button>
+        <button type="button" class="btn btn-primary" ng-show="processing" disabled>Classifying...</button>
+        <div class="btn-group" dropdown>
+          <button type="button" class="btn btn-default dropdown-toggle" ng-disabled="loadingTestData">Load Test Data  <span class="caret"></span></button>
+          <ul class="dropdown-menu scrollable-menu" role="menu">
+            <li ng-repeat="data in testData">
+              <a ng-click="loadTestData(data)">{{data.name}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <hr ng-show="results && results.length"/>
+      <h3 ng-show="results && results.length">Results: </h3>
+    </div>
+    <div class="col-md-8 col-md-offset-2">
+      <div class="center" id="results">
+        <div class="result" ng-repeat="result in results">
+
+          <div class="highlights-graph">
+            <canvas chart="Line" options="chartOptions" height="200" data="result.chartData" responsive=true></canvas>
+          </div>
+
+          <div>
+            <h4>Overall score: {{result.score | number : 3}}</h4>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" ng-init="isHighlightsCollapsed=false">
+              <h4 class="panel-title">
+                <a ng-click="isHighlightsCollapsed = !isHighlightsCollapsed">Highlights</a>
+              </h4>
+            </div>
+            <div ng-show="result.highlights.length === 0">
+              <div class="panel-body">
+                <p>No highlights found.</p>
+              </div>
+            </div>
+            <div collapse="isHighlightsCollapsed" ng-show="result.highlights.length > 0">
+              <div class="panel-body">
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>Ball</th>
+                      <th>Commentary</th>
+                      <th>Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr ng-repeat="highlight in result.highlights">
+                      <td>{{highlight.ball}}</td>
+                      <td>{{highlight.text | stripDollar}}</td>
+                      <td>{{highlight.score | number : 3}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading" role="tab" ng-init="isCollapsed=true">
+              <h4 class="panel-title">
+                <a ng-click="isCollapsed = !isCollapsed">
+                  Raw JSON Data
+                </a>
+              </h4>
+            </div>
+            <div collapse="isCollapsed">
+              <div class="panel-body">
+                <pre><code class="json">{{result | prettify}}</code></pre>
+              </div>
+            </div>
+          </div>
+
+          <hr ng-show="!$last"/>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>NLP Project</p>
+  </div>
+</footer>

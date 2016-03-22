@@ -1,0 +1,42 @@
+.footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 70px;
+    border-top: 1px solid #E5E5E5;
+}
+
+.ace_editor {
+    margin: 20px;
+    height: 200px;
+}
+
+.buttons {
+    text-align: center;
+}
+
+.result {
+    margin-top: 40px;
+    margin-bottom: 80px;
+    &.ng-enter, &.ng-move {
+        -webkit-transition: all linear 0.5s;
+        -moz-transition: all linear 0.5s;
+        -o-transition: all linear 0.5s;
+        transition: all linear 0.5s;
+        opacity: 0;
+        max-height: 0;
+    }
+    &.ng-enter.ng-enter-active,
+    &.ng-move.ng-move-active {
+        opacity: 1;
+    }
+}
+
+.highlights-graph {
+    height: 200px;
+}
+
+.scrollable-menu {
+    height: auto;
+    max-height: 200px;
+    overflow-x: hidden;
+}
